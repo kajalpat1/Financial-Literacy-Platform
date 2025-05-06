@@ -1,3 +1,7 @@
+module.exports = {
+    ...require('./auth')
+};
+
 
 module.exports.notFound = (req, res, next) => {
     const err = new Error('Not found');
@@ -7,9 +11,8 @@ module.exports.notFound = (req, res, next) => {
 };
 
 
-
 module.exports.errors = (err, red, res, next) => {
-    res.status(err.status || 500).json({
+    res.status(err.status || 400).json({
         err: err.message || 'Something went wrong'
     });
 };
