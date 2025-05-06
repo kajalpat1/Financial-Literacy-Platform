@@ -8,7 +8,11 @@ exports.register = async (req, res, next) => {
         const {id, username} = user;
 
         const token = jwt.sign({id, username}, process.env.SECRET);
-        res.status(201).json({id, username});
+        res.status(201).json({
+            id, 
+            username, 
+            token
+        });
 
     } catch(err) {
         if (err.code == 11000) {
@@ -30,7 +34,8 @@ exports.login = async (req,res,next) => {
 
             res.json ({
                 id,
-                username
+                username,
+                token
             });
         } else {
             throw new Error('Invalid Username/Password');
