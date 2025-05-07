@@ -1,1 +1,1 @@
-const seed = async (0 )
+const seed = async ()

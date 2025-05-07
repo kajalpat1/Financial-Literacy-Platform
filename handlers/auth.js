@@ -21,7 +21,7 @@ exports.register = async (req, res, next) => {
 
         next(err);
     }
-}
+};
 
 exports.login = async (req,res,next) => {
     try {
@@ -45,4 +45,4 @@ exports.login = async (req,res,next) => {
 
         next(err);
     }
-}   
+};   
