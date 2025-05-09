@@ -6,10 +6,8 @@ import AuthPage from '../pages/AuthPage';
 
 const RouteViews = ({auth}) => (<main> 
     <Routes>
-        <Route exact path='login' render = {() => (<AuthPage authType ="login" isAuthenticated={auth.isAuthenticated} />)} 
-        />
-        <Route exact path = 'register' render={()=> (<AuthPage authType="register" isAuthenticated={auth.isAuthenticated}/>)} 
-        />
+    <Route path="/login" element={<AuthPage authType="login" isAuthenticated={auth?.isAuthenticated} />} />
+    <Route path="/register" element={<AuthPage authType="register" isAuthenticated={auth?.isAuthenticated} />} />
     </Routes>
 
 
