@@ -32,7 +32,7 @@ export const authUser = (path, data) => {
         }
         catch (err) {
             const{error} = err.response.data;
-            dispatch(addError(error)); //call errors, dispatch calls it to redux
+            dispatch(addError(error.message)); //call errors, dispatch calls it to redux
         }
     }
 }
