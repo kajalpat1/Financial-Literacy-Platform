@@ -1,5 +1,5 @@
 import {addError, removeError} from './error';
-import {SET_CURRENT_USER} from '..actionTypes';
+import {SET_CURRENT_USER} from '../actionTypes';
 import api from '../../services/api';
 
 export const setCurrentUser = user => ({

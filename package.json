@@ -1,32 +1,7 @@
-
 {
-  "name": "server",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon",
-    "seed": "node seed.js"
-  },
-  "author": "Kajal Patel",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "body-parser": "^2.2.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.14.1",
-
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^5.0.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@reduxjs/toolkit": "^2.8.1",
+    "jwt-decode": "^4.0.0",
+    "redux-thunk": "^2.4.2"
   }
 }
-
-

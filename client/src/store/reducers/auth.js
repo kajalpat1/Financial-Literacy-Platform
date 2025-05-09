@@ -1,4 +1,4 @@
-import {SET_} from '..actionTypes';
+//import {SET_} from '../actionTypes';
 import { SET_CURRENT_USER } from '../actionTypes';
 
 const DEFAULT_STATE = {
