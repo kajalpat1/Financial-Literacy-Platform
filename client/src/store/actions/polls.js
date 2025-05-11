@@ -14,7 +14,7 @@ export const setCurrentPoll = poll => ({
 });
 
 export const getPolls = () => {
-    return async dispath => {
+    return async dispatch => {
         try {
             const polls = await api.call('get', 'polls');
             dispatch(setPolls(polls));
@@ -24,8 +24,8 @@ export const getPolls = () => {
             const error = err.response.data;
             dispatch(addError(error.messsage));
         }
-    }
-}
+    };
+};
 
 export const getUserPolls = () => {
     return async dispatch => {
@@ -38,5 +38,47 @@ export const getUserPolls = () => {
             const error = err.response.data;
             dispatch(addError(error.message));
         }
-    }
-}
+    };
+};
+
+export const createPoll = data => {
+    return async dispatch => {
+        try {
+            const poll = await api.call('post', 'polls', data);
+            dispatch(setCurrentPoll(poll));
+            dispatch(removeError());
+            
+        } catch(err) {
+            const error = err.response.data;
+            dispatch(addError(error.message));
+        }
+    };
+};
+
+export const getCurrentPoll = path => {
+    return async dispatch => {
+        try {
+            const poll = await api.call('get', `polls/${path}`);
+            dispatch(setCurrentPoll(poll));
+            dispatch(removeError());
+
+        } catch(err) {
+            const error = err.response.data;
+            dispatch(addError(error.message));
+        }
+    };
+};
+
+export const vote = (path, data) => {
+    return async dispatch => {
+        try {
+            const poll = await api.call('post', `polls/${path}`, data);
+            dispatch(setCurrentPoll(poll));
+            dispatch(removeError());
+        } 
+        catch(err) {
+            const error = err.response.data;
+            dispatch(addError(error.message));
+        }
+    };
+};
