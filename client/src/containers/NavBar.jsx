@@ -8,26 +8,29 @@ import {logout} from '../store/actions';
 
 const NavBar = ({auth, logout}) => (
 <div className = "navbar">
+    <div className='container'>
+        <ul className='navbar-container'>
     <ul>
         <li>
-            <Link to='/'>Home</Link>
+            <Link className='navbar-brand' to='/'>Home</Link>
         </li>
         <li>
-        <Link to ='/Register'>Register</Link>
+        <Link className='navbar-item' to ='/Register'>Register</Link>
     </li>
     
     <li>
-        <Link to ='/login'>Login</Link>
+        <Link className='navbar-item' to ='/login'>Login</Link>
     </li>
     <li>
-        <Link to="/test">Test</Link>
+        <Link className='navbar-item' to="/test">Test</Link>
     </li>
     <li>
-        <a onClick={logout}>Logout</a>
+        <a className='navbar-item' onClick={logout}>Logout</a>
     </li>
     </ul>
-    {auth.isAuthenticated && <p>Logged in as {auth.user.username}</p>}
-</div>
+    </ul>
+    {auth.isAuthenticated && <p className='navbar-user'>Logged in as {auth.user.username}</p>}
+</div></div>
 );
 
 export default connect(store => ({auth: store.auth}), {logout})(NavBar);

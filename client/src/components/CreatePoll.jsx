@@ -43,7 +43,7 @@ class CreatePoll extends Component {
             />
         </Fragment>)
 
-        return <form onSubmit= {this.handleSubmit}>
+        return <form className='form' onSubmit= {this.handleSubmit}>
             <label htmlFor = 'question' >Question</label>
             <input type = 'text'
             name = 'question'
