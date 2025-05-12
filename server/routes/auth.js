@@ -2,7 +2,7 @@ const router = require('express').Router();
 const handle = require('../handlers');
 
 
-console.log('handlers object:', handle);
+//console.log('handlers object:', handle);
 
 router.post('/register', handle.register);
 
