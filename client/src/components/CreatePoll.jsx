@@ -20,7 +20,7 @@ class CreatePoll extends Component {
     }
 
     addAnswer() {
-        this.setState({options: [this.state.options, '']});
+        this.setState({options: [...this.state.options, '']});
     }
 
     handleAnswer(e, index) {
@@ -56,7 +56,7 @@ class CreatePoll extends Component {
             />
             {options}
 <div className ='button_center'>
-            <button classname='button' type = 'button' onClick={this.addAnswer}>Add options</button>
+            <button className='button' type = 'button' onClick={this.addAnswer}>Add options</button>
             <button className ='button' type='submit'>Submit</button>
             </div>
         </form>

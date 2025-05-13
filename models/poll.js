@@ -14,7 +14,7 @@ const pollSchema = new mongoose.Schema({
         ref: 'User' 
     },
     question: String,
-    option: [optionSchema],   //keeps track of all the id user objects
+    options: [optionSchema],   //keeps track of all the id user objects
     voted: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     created: {
         type: Date,
