@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const host = 'http://localhost:8001/api';
+const host = 'http://localhost:8001';
 
 export const setToken = token => {
   if (token) {
@@ -15,6 +15,6 @@ export const call = async (method, path, data) => {
   return res.data;
 };
 
-const api = { call, setToken };   // ← give it a name
-export default api;               // ← now ESLint is happy
+const api = { call, setToken };
+export default api;              
 

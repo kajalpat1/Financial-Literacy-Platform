@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+localStorage.setItem('jwt', token);
+api.setToken(token);
 
 const handle = require('../handlers');
 const auth = require('../middleware/auth');

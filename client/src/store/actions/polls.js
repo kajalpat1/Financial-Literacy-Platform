@@ -20,9 +20,12 @@ export const getPolls = () => {
             dispatch(setPolls(polls));
             dispatch(removeError());
         }
-        catch(err) {
-            const error = err.response.data;
-            dispatch(addError(error.messsage));
+        catch (err) {
+            const msg =
+                err.response?.data?.error?.message ||   
+                err.response?.data?.message        ||   
+                err.message;                            
+            dispatch(addError(msg));
         }
     };
 };
@@ -34,9 +37,12 @@ export const getUserPolls = () => {
             dispatch(setPolls(polls));
             dispatch(removeError());
 
-        } catch(err) {
-            const error = err.response.data;
-            dispatch(addError(error.message));
+        } catch (err) {
+            const msg =
+                err.response?.data?.error?.message ||   
+                err.response?.data?.message        ||   
+                err.message;                            
+            dispatch(addError(msg));
         }
     };
 };
@@ -48,9 +54,12 @@ export const createPoll = data => {
             dispatch(setCurrentPoll(poll));
             dispatch(removeError());
             
-        } catch(err) {
-            const error = err.response.data;
-            dispatch(addError(error.message));
+        } catch (err) {
+            const msg =
+                err.response?.data?.error?.message ||   
+                err.response?.data?.message        ||   
+                err.message;                            
+            dispatch(addError(msg));
         }
     };
 };
@@ -62,9 +71,12 @@ export const getCurrentPoll = path => {
             dispatch(setCurrentPoll(poll));
             dispatch(removeError());
 
-        } catch(err) {
-            const error = err.response.data;
-            dispatch(addError(error.message));
+        } catch (err) {
+            const msg =
+                err.response?.data?.error?.message ||   
+                err.response?.data?.message        ||   
+                err.message;                            
+            dispatch(addError(msg));
         }
     };
 };
@@ -76,9 +88,12 @@ export const vote = (path, data) => {
             dispatch(setCurrentPoll(poll));
             dispatch(removeError());
         } 
-        catch(err) {
-            const error = err.response.data;
-            dispatch(addError(error.message));
+        catch (err) {
+            const msg =
+                err.response?.data?.error?.message ||   
+                err.response?.data?.message        ||   
+                err.message;                            
+            dispatch(addError(msg));
         }
     };
 };
