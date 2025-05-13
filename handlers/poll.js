@@ -37,7 +37,7 @@ exports.createPoll = async (req, res, next) => {
     try {
         console.log(req.decoded);
         const {id} = req.decoded;
-        const user = await db.User.findById(Id);
+        const user = await db.User.findById(id);
         const { question, options } = req.body;
         const poll = await db.Poll.create({
             question,
@@ -45,7 +45,7 @@ exports.createPoll = async (req, res, next) => {
             options: options.map(option => ({option, votes: 0}))
             //to add specfic user
         });
-        user.polls.push(polls._id);
+        user.polls.push(poll._id);
         await user.save();
 
 
@@ -69,7 +69,7 @@ exports.getPoll = async(req, res, next) => {
     }
     catch(err) {
         err.status = 400;
-        next(arr);
+        next(err);
     }
 };
 
@@ -100,7 +100,7 @@ exports.vote = async(req, res, next) => {
         const{answer} = req.body;
 
         if (answer) {
-            const polll = await db.Poll.findByid(pollId);
+            const poll = await db.Poll.findByid(pollId);
             if(!poll) throw new Error('No poll found');
 
             const vote = poll.options.map (  //new array identical to poll

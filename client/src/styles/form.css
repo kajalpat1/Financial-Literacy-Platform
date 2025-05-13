@@ -1,7 +1,7 @@
 .form {
     width: 50%;
     margin: 1rem auto;
-    background-color: var(-blue);
+    background-color: var(--blue);
     padding: 1rem;
     border-radius: 0.4rem;
 
@@ -11,6 +11,8 @@
     width: 100%;
     padding: 0.5rem 1rem;
     margin: 0.5rem 0;
+    color: var(--blue);  
+    background-color: #fff;
     border: 1px solid var(--light);
     border-radius: 04rem;
     box-sizing: border-box;
