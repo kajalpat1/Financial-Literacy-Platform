@@ -25,6 +25,8 @@
     color: white;
     text-decoration:none;
     cursor: pointer;
+    background: transparent;
+    border: none
 }
 
 .navbar-user {

@@ -29,7 +29,7 @@ const RouteViews = ({auth, getCurrentPoll}) => (
 <Route path="/poll/new" element={
     <CreatePollPage isAuthenticated={auth.isAuthenticated} />} />
 
-    <Route path="/poll/:id" element={<PollPage getPoll={id => getCurrentPoll(id)} />} />
+    <Route path="/poll/:id" element={<PollPage />} />
 
     <Route path="/test" element={<TestPage />} />
    
