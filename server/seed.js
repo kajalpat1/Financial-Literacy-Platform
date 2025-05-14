@@ -1,24 +1,46 @@
-require('dotenv').config();
+require('dotenv').config();         
 const mongoose = require('mongoose');
 const db = require('./models');
 
-(async () => {
-  await mongoose.connect('mongodb://localhost/vote');
-  await db.User.deleteMany({});
-  await db.Poll.deleteMany({});
+(async function seed() {
+  try {
+    await mongoose.connect('mongodb://localhost/vote');
+    console.log('Mongo connected, dropping old polls …');
+    await db.Poll.deleteMany({});   
+    await db.User.deleteMany({});   
 
-  const user = await db.User.create({ username: 'demo', password: 'demo' });
-  const poll = await db.Poll.create({
-    user,
-    question: 'Best JS framework?',
-    options: [
-      { option: 'React', votes: 5 },
-      { option: 'Vue',   votes: 3 },
-      { option: 'Svelte', votes: 2 }
-    ]
-  });
-  user.polls.push(poll._id);
-  await user.save();
-  console.log('Seed complete');
-  process.exit();
+    
+    const user = await db.User.create({
+      username: 'demo',
+      password: 'password'          //
+    });
+
+   
+    const pollData = [
+      {
+        user: user._id,
+        question: 'Cats or Dogs?',
+        options: [
+          { option: 'Cats',  votes: 3 },
+          { option: 'Dogs',  votes: 5 }
+        ]
+      },
+      {
+        user: user._id,
+        question: 'Favourite colour?',
+        options: [
+          { option: 'Blue',  votes: 4 },
+          { option: 'Green', votes: 2 },
+          { option: 'Red',   votes: 1 }
+        ]
+      }
+    ];
+
+    await db.Poll.insertMany(pollData);
+    console.log('✨  Database seeded!');
+  } catch (err) {
+    console.error(err);
+  } finally {
+    mongoose.connection.close();
+  }
 })();
