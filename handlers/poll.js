@@ -5,8 +5,7 @@ const { options } = require('../routes/auth');
 
 exports.showPolls = async (req, res, next) => {
     try {
-        const polls = await db.Poll.find().populate(
-            'user', ['username', 'id']);
+        const polls = await db.Poll.find().populate('user', 'username _id');
 
         res.status(200).json(polls);
 
@@ -60,8 +59,7 @@ exports.getPoll = async(req, res, next) => {
     try {
         const {id} = req.params;
 
-        const poll = await db.Poll.findById(id)
-        .populate('user', ['username', id]);
+        const poll = await db.Poll.find().populate('user', 'username _id');
 
         if (!poll) throw new Error('No poll Found');
 
