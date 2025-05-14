@@ -45,7 +45,7 @@ exports.createPoll = async (req, res, next) => {
             options: options.map(option => ({option, votes: 0}))
             //to add specfic user
         });
-        user.polls.push(polls._id);
+        user.polls.push(poll._id);
         await user.save();
 
 
