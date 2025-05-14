@@ -37,7 +37,7 @@ exports.createPoll = async (req, res, next) => {
     try {
         console.log(req.decoded);
         const {id} = req.decoded;
-        const user = await db.User.findById(Id);
+        const user = await db.User.findById(id);
         const { question, options } = req.body;
         const poll = await db.Poll.create({
             question,
