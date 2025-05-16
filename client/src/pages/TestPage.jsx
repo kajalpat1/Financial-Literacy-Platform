@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import decode from 'jwt-decode';
 import { Provider } from 'react-redux';
+import { Pie } from 'react-chartjs-2';
 
 import { store } from '../store';
 import { setToken, setCurrentUser, addError } from '../store/actions';
