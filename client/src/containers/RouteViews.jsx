@@ -1,6 +1,7 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
+import { Pie } from 'react-chartjs-2';
 
 import AuthPage from '../pages/AuthPage';
 import HomePage from '../pages/Homepage';

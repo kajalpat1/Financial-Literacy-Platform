@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../store/actions';
-import { Pie } from 'react-chartjs-2';
+
 
 const NavBar = ({ auth, logout }) => (
   <div className="navbar">
