@@ -1,7 +1,6 @@
 import React from 'react';
 import {Navigate} from 'react-router-dom';
 //import { useSelector } from 'react-redux';
-import { Pie } from 'react-chartjs-2';
 
 import Auth from '../components/Auth';
 import ErrorMessage from '../components/ErrorMessage';
