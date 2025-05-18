@@ -1,6 +1,7 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
+import { logout } from '../store/actions';
 
 
 import AuthPage from '../pages/AuthPage';
