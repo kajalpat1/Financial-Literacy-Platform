@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { vote } from '../store/actions';
 import { Pie } from 'react-chartjs-2';
-import {connect} from 'react-redux';
+
 
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
