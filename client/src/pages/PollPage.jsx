@@ -26,4 +26,3 @@ const PollPage = ({ getPoll }) => {
 };
 
 export default connect(null, { getPoll: getCurrentPoll })(PollPage);
-import ErrorMessage from'../components/ErrorMessage';
