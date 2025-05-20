@@ -5,8 +5,9 @@ const { createSearchIndex } = require('../models/user');
 
 exports.showPolls = async (req, res, next) => {
     try {
-        const polls = await db.Poll.find().populate(
-            user, ['username', 'id']);
+        const polls = await db.Poll
+                .find()
+                .populate('user', 'username _id');
 
         res.status(200).json(polls);
 
