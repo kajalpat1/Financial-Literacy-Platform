@@ -4,9 +4,48 @@
     --light: #bbdefb;
 }
 
-body {
+.page {
+    min-height: 100vh;
+    padding-top: 5rem;      
+    background: blue;
+  }
+  
+  .page--home,
+  .page--create,
+  .page--register {
     background-color: var(--light);
-}
+  }
+
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--blue);
+    padding: 0.5rem 0;
+    z-index: 10;
+  }
+  
+  .navbar-container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  
+  .navbar-item {
+    background-color: var(--light);
+    color: var(--blue);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  
+  .navbar-item.active {
+    background: var(--light);
+    border: 2px solid var(--blue);
+  }
 
 .welcome {
     text-align: center;

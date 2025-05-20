@@ -2,6 +2,7 @@
     width: 50%;
     margin: 1rem auto;
     background-color: var(--blue);
+    color: white;
     padding: 1rem;
     border-radius: 0.4rem;
 
@@ -24,3 +25,23 @@
     text-transform: none;
     font-size: 0.8rem
 }
+.form-input::placeholder {
+    color: white;
+    opacity: 1; 
+  }
+
+.form-button {
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .form-button:hover {
+    background-color: #08306b; /* darker blue on hover */
+  }

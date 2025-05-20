@@ -50,7 +50,7 @@ class Auth extends Component {
             onChange={this.handleChange}     />  
 
             <div className = 'button_center'>
-            <button className='buttons' type="submit">Submit</button>
+            <button className="form-button" type="submit">Submit</button>
             </div>  
         </form>
         </div>

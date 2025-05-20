@@ -1,43 +1,29 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../store/actions';
 
-
-
 const NavBar = ({ auth, logout }) => (
-  <div className="navbar">
-    <div className="container">
-      <ul className="navbar-container">
-        <li>
-          <Link className="navbar-brand" to="/">Home</Link>
-        </li>
-        {!auth.isAuthenticated && (
-          <Fragment>
-            <li>
-              <Link className="navbar-item" to="/register">Register</Link>
-            </li>
-            <li>
-              <Link className="navbar-item" to="/login">Login</Link>
-            </li>
-          </Fragment>
-        )}
-        {auth.isAuthenticated && (
-          <Fragment>
-            <li>
-              <Link className="navbar-item" to="/poll/new">Create Poll</Link>
-            </li>
-            <li>
-              <button className="navbar-item" onClick={logout}>Logout</button>
-            </li>
-          </Fragment>
-        )}
-      </ul>
+  <nav className="navbar">
+    <div className="navbar-container">
+      <NavLink to="/"       className="navbar-item">Home</NavLink>
+      {!auth.isAuthenticated && (
+        <>
+          <NavLink to="/register" className="navbar-item">Register</NavLink>
+          <NavLink to="/login"    className="navbar-item">Login</NavLink>
+        </>
+      )}
       {auth.isAuthenticated && (
-        <p className="navbar-user">Logged in as {auth.user.username}</p>
+        <>
+          <NavLink to="/poll/new"   className="navbar-item">Create Poll</NavLink>
+          <button onClick={logout}  className="navbar-item">Logout</button>
+        </>
       )}
     </div>
-  </div>
+    {auth.isAuthenticated && auth.user && (
+      <p className="navbar-user">Logged in as {auth.user.username}</p>
+    )}
+  </nav>
 );
 
 export default connect(

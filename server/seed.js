@@ -37,7 +37,7 @@ const db = require('./models');
     ];
 
     await db.Poll.insertMany(pollData);
-    console.log('✨  Database seeded!');
+    console.log('  Database seeded!');
   } catch (err) {
     console.error(err);
   } finally {
