@@ -10,6 +10,7 @@ import CreatePollPage from '../pages/CreatePollPage';
 import PollPage from '../pages/PollPage';
 import TestPage from '../pages/TestPage';
 import { getCurrentPoll } from '../store/actions';
+import BudgetScenario from '../components/BudgetScenario';
 
 const RouteViews = ({ auth, getCurrentPoll }) => (
   <main>
@@ -47,6 +48,8 @@ const RouteViews = ({ auth, getCurrentPoll }) => (
       />
 
       <Route path="/test" element={<TestPage />} />
+
+      <Route path="/scenario" element={<BudgetScenario />} />
     </Routes>
   </main>
 );

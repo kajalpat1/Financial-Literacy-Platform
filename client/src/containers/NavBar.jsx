@@ -16,6 +16,7 @@ const NavBar = ({ auth, logout }) => (
       {auth.isAuthenticated && (
         <>
           <NavLink to="/poll/new"   className="navbar-item">Create Poll</NavLink>
+          <NavLink to="/scenario" className="navbar-item">Scenarios</NavLink>
           <button onClick={logout}  className="navbar-item">Logout</button>
         </>
       )}
