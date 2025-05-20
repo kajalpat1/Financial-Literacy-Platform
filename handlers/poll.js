@@ -73,25 +73,28 @@ exports.getPoll = async(req, res, next) => {
     }
 };
 
-exports.deletePoll = async(req, res, next) => {
+exports.deletePoll = async (req, res, next) => {
     try {
-        const{id: pollId} = res.params;
-        const {id: userId} = req.decoded;
-        const poll = await db. Poll.findById(pollId);
-        if (!poll) throw new Error ('No poll found');
-        if (poll.user.toString() !== userId) {  //object id mongodb type, 
-        // first have to compare to string
-            throw new Error('Unauthorized access');
-        }
 
-        await poll.remove();
-        res.status(202).json(poll);
+      const { id: pollId } = req.params
+      const { id: userId } = req.decoded
+  
+      const poll = await db.Poll.findById(pollId)
+      if (!poll) {
+        res.status(404)
+        throw new Error('No poll found')
+      }
 
-    } catch(err) {
-        err.status = 400;
-        next(err);
+      if (poll.user.toString() !== userId) {
+        res.status(403)
+        throw new Error('Unauthorized access')
+      }
+      const deleted = await db.Poll.findByIdAndDelete(pollId)
+      res.status(202).json(deleted)
+    } catch (err) {
+      next(err)
     }
-};
+  }
 
 exports.vote = async(req, res, next) => {
     try {

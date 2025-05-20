@@ -1,5 +1,5 @@
 import api from'../../services/api';
-import {SET_POLLS, SET_CURRENT_POLL} from '../actionTypes';
+import {SET_POLLS, SET_CURRENT_POLL, DELETE_POLL} from '../actionTypes';
 import {addError, removeError} from './error';
 
 export const setPolls = polls => ({
@@ -80,6 +80,28 @@ export const getCurrentPoll = path => {
         }
     };
 };
+
+export const deletePollSuccess = id => ({
+    type: DELETE_POLL,
+    id
+  })
+  
+  export const deletePoll = id => {
+    return async dispatch => {
+      try {
+      
+        await api.call('delete', `polls/${id}`)
+        dispatch(deletePollSuccess(id))
+        dispatch(removeError())
+      } catch (err) {
+        const msg =
+          err.response?.data?.message ||
+          err.response?.data?.error?.message ||
+          err.message
+        dispatch(addError(msg))
+      }
+    }
+  }
 
 export const vote = (path, data) => {
     return async dispatch => {

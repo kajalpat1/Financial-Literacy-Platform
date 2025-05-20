@@ -1,49 +1,83 @@
-import React, {Component, Fragment} from 'react';
-import {connect} from 'react-redux';
-import {getPolls, getUserPolls, getCurrentPoll} from '../store/actions';
 
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import {
+  getPolls,
+  getUserPolls,
+  deletePoll
+} from '../store/actions';
 
 class Polls extends Component {
+  componentDidMount() {
+    this.props.getPolls();
+  }
 
-    constructor(props) {
-        super(props);
-        this.handleSelect  = this.handleSelect.bind(this);
-    }
+  handleSelect = (id) => {
+    // navigate to detail page
+    this.props.history.push(`/poll/${id}`);
+  }
 
-    componentDidMount() {
-        const {getPolls} = this.props;
-        getPolls();
-    }
+  handleDelete = (e, id) => {
+    e.stopPropagation();
+    this.props.deletePoll(id);
+  }
 
-    handleSelect(id) {
-        const {history} = this.props;
-        history.push(`/poll/${id}`);
+  render() {
+    const { auth, polls, getPolls, getUserPolls } = this.props;
 
-    }
+    return (
+      <Fragment>
+        {auth.isAuthenticated && (
+          <div className="button_center">
+            <button className="button" onClick={getPolls}>
+              All Polls
+            </button>
+            <button className="button" onClick={getUserPolls}>
+              My Polls
+            </button>
+          </div>
+        )}
 
-    render() {
-        const {auth, getPolls, getUserPolls} = this.props;
-        const polls = this.props.polls.map(poll => <li onClick={() => this.handleSelect(poll._id)}
-        key={poll._id}>{poll.question}</li>);
-        
-        return <Fragment>
-            {auth.isAuthenticated && (
-                <div className= "button_center">
-                    <button className="button" onClick={getPolls}>All Polls</button>
-                <button className="button" onClick={getUserPolls}>My Polls</button>
-                </div>
-            )}
-            <ul className='polls' >{polls}</ul>
+        <ul className="polls">
+          {polls.map(poll => (
+            <li
+              key={poll._id}
+              onClick={() => this.handleSelect(poll._id)}
+              style={{ cursor: 'pointer', position: 'relative' }}
+            >
+              <Link to={`/poll/${poll._id}`}>{poll.question}</Link>
 
-        </Fragment>;
-    }
 
+              {auth.isAuthenticated &&
+               auth.user.id === poll.user._id && (
+                <button
+                  className="button"
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    margin: '0.2rem'
+                  }}
+                  onClick={e => this.handleDelete(e, poll._id)}
+                >
+                  Delete
+                </button>
+              )}
+            </li>
+          ))}
+        </ul>
+      </Fragment>
+    );
+  }
 }
 
-export default connect(store => ({
-    auth: store.auth,
-    polls: store.polls
-}), 
+const mapState = (state) => ({
+  auth: state.auth,
+  polls: state.polls
+});
 
-    {getPolls, getUserPolls, getCurrentPoll} 
+export default connect(
+  mapState,
+  { getPolls, getUserPolls, deletePoll }
 )(Polls);

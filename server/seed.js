@@ -27,7 +27,7 @@ const db = require('./models');
       },
       {
         user: user._id,
-        question: 'Favourite colour?',
+        question: 'Favourite color?',
         options: [
           { option: 'Blue',  votes: 4 },
           { option: 'Green', votes: 2 },
