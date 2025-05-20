@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { vote } from '../store/actions';
 import { Pie } from 'react-chartjs-2';
-
-
+import spinner from '../components/homescreen.gif';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -11,7 +10,14 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const randomColor = () => '#' + Math.random().toString(16).slice(2, 8);
 
 const Poll = ({ poll, vote }) => {
-  if (!poll || !poll.options) return null;
+  // if we haven't gotten the poll data yet, show a spinner
+  if (!poll || !poll.options) {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+        <img src={spinner} alt="Loading..." style={{ width: 60 }} />
+      </div>
+    );
+  }
 
   const answers = poll.options.map(option => (
     <button
