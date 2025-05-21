@@ -13,10 +13,9 @@ class Polls extends Component {
     this.props.getPolls();
   }
 
-  handleSelect = (id) => {
-    // navigate to detail page
-    this.props.history.push(`/poll/${id}`);
-  }
+    handleSelect = (id) => {
+    this.props.navigate(`/poll/${id}`);
+  };
 
   handleDelete = (e, id) => {
     e.stopPropagation();
@@ -77,7 +76,12 @@ const mapState = (state) => ({
   polls: state.polls
 });
 
-export default connect(
+
+
+const ConnectedPolls = connect(
   mapState,
   { getPolls, getUserPolls, deletePoll }
 )(Polls);
+
+export { Polls };
+export default ConnectedPolls;

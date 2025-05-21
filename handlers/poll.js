@@ -103,7 +103,7 @@ exports.vote = async(req, res, next) => {
         const{answer} = req.body;
 
         if (answer) {
-            const poll = await db.Poll.findByid(pollId);
+            const poll = await db.Poll.findById(pollId);
             if(!poll) throw new Error('No poll found');
 
             const vote = poll.options.map (  //new array identical to poll

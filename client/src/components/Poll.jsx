@@ -14,6 +14,8 @@ const randomColor = () => '#' + Math.random().toString(16).slice(2, 8);
 const Poll = ({ poll, vote }) => {
   if (!poll || !poll.options) return null;
 
+  console.log("Poll options:", poll.options);
+
   const answers = poll.options.map(option => (
     <button
       className="button"

@@ -53,7 +53,7 @@ const BudgetScenario = () => {
   };
 
   return (
-    <div className="page">
+    <div className="page page--scenario">
       <h2>Choose a Budgeting Scenario</h2>
       <div className="button_center">
         <button className="button" onClick={() => setScenario('save')}>Save</button>

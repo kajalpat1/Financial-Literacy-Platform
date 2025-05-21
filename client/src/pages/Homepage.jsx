@@ -1,9 +1,16 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Polls from '../components/Polls';
+import ConnectedPolls, { Polls } from '../components/Polls';
 import ErrorMessage from '../components/ErrorMessage';
 import gif from '../pages/homescreen.gif';
 import { getPolls, getUserPolls, getCurrentPoll, removeError } from '../store/actions';
+
+
+const PollsWithNavigate = (props) => {
+    const navigate = useNavigate();
+    return <ConnectedPolls {...props} navigate={navigate} />;
+  };
 
 function HomePage({ auth, polls, getPolls, getUserPolls, removeError }) {
   useEffect(() => { removeError(); }, [removeError]);
@@ -26,7 +33,7 @@ function HomePage({ auth, polls, getPolls, getUserPolls, removeError }) {
         </div>
       )}
 
-      <Polls
+      <PollsWithNavigate
         auth={auth}
         polls={polls}
         getPolls={getPolls}

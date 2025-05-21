@@ -7,13 +7,16 @@
 .page {
     min-height: 100vh;
     padding-top: 5rem;      
-    background: blue;
   }
   
   .page--home,
   .page--create,
   .page--register {
-    background-color: var(--light);
+   background-color: var(--light);
+  }
+
+  .page--scenario {
+    background-color: white;
   }
 
   .navbar {
