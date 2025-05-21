@@ -74,6 +74,7 @@ class Polls extends Component {
 const mapState = (state) => ({
   auth: state.auth,
   polls: state.polls
+  
 });
 
 

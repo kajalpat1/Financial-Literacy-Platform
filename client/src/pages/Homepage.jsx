@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import ConnectedPolls, { Polls } from '../components/Polls';
+import ConnectedPolls from '../components/Polls';
 import ErrorMessage from '../components/ErrorMessage';
 import gif from '../pages/homescreen.gif';
 import { getPolls, getUserPolls, getCurrentPoll, removeError } from '../store/actions';
