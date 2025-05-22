@@ -130,7 +130,7 @@ exports.vote = async(req, res, next) => {
                     res.status(201).json(poll);
                 } //check if user has voted
                 else {
-                    throw new Error('Already voted');
+                    
                 }
             }
             else {

@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { useLocation } from 'react-router-dom';
 
 import {
   Chart as ChartJS,
@@ -32,7 +33,12 @@ const costAccumulation = (initial, monthlyCost, years) => {
 };
 
 const BudgetScenario = () => {
-  const [scenario, setScenario] = useState('save');
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+  const scenarioFromVote = params.get('type') || 'save';
+
+  const [scenario, setScenario] = useState(scenarioFromVote);
+
 
   const dataMap = {
     save: compoundInterest(5000, 0.05, 5),

@@ -31,31 +31,30 @@ class Auth extends Component {
     render() {
         const {username, password} = this.state;
         return ( 
-        <div> 
-            <form onSubmit={this.handleSubmit}>
-                <label className="form" htmlFor="username">username</label>
-            <input className="form-label"
-             type= "text" 
-            value={username} 
-            name = "username"
-            autoComplete="off" 
-            onChange={this.handleChange} />
-
-            <label className="form" htmlFor= "password">password</label>
-            <input className="form-label"
-            type = "password" 
-            value = {password} 
-            name = "password"
-            autoComplete="off"
-            onChange={this.handleChange}     />  
-
-            <div className = 'button_center'>
-            <button className="form-button" type="submit">Submit</button>
-            </div>  
-        </form>
-        </div>
+            <div className="auth-container">
+            <form onSubmit={this.handleSubmit} className="auth-form">
+              <h2>{this.props.authType === 'register' ? 'Register' : 'Login'}</h2>
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                value={username}
+                name="username"
+                autoComplete="off"
+                onChange={this.handleChange}
+              />
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                value={password}
+                name="password"
+                autoComplete="off"
+                onChange={this.handleChange}
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
         );
-    }
+      }
 }
 
 export default connect(() => 
