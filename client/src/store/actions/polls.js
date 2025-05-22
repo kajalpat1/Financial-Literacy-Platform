@@ -113,7 +113,7 @@ export const deletePollSuccess = id => ({
         dispatch(removeError());
   
         if (navigate && selected) {
-          navigate(`/scenario?type=${selected.toLowerCase()}`);
+          navigate(`/scenario?type=${selected.toLowerCase()}&value=5000&rate=8`);
         }
   
       } catch (err) {
