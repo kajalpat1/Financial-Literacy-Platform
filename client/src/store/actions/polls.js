@@ -103,19 +103,25 @@ export const deletePollSuccess = id => ({
     }
   }
 
-export const vote = (path, data) => {
+  export const vote = (path, data, navigate) => {
     return async dispatch => {
-        try {
-            const poll = await api.call('post', `polls/${path}`, data);
-            dispatch(setCurrentPoll(poll));
-            dispatch(removeError());
-        } 
-        catch (err) {
-            const msg =
-                err.response?.data?.error?.message ||   
-                err.response?.data?.message        ||   
-                err.message;                            
-            dispatch(addError(msg));
+      try {
+        const response = await api.call('post', `polls/${path}`, data);
+        const { poll, selected } = response;
+  
+        dispatch(setCurrentPoll(poll));
+        dispatch(removeError());
+  
+        if (navigate && selected) {
+          navigate(`/scenario?type=${selected.toLowerCase()}`);
         }
+  
+      } catch (err) {
+        const msg =
+          err.response?.data?.error?.message ||
+          err.response?.data?.message ||
+          err.message;
+        dispatch(addError(msg));
+      }
     };
-};
+  };
