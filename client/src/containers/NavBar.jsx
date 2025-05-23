@@ -31,3 +31,4 @@ export default connect(
   store => ({ auth: store.auth }),
   { logout }
 )(NavBar);
+
