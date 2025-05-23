@@ -32,31 +32,40 @@ const simulateSpending = (value, monthlyCost, years = 5) => {
 };
 
 const BudgetScenario = () => {
-  const { search } = useLocation();
+
 
   const [scenario, setScenario] = useState('save');
   const [chartValues, setChartValues] = useState([]);
 
   // Whenever the URL changes, update scenario & chart
   useEffect(() => {
-  const selected = new URLSearchParams(search).get('type');
-  const rate = parseFloat(new URLSearchParams(search).get('rate')) || 5;
-  const value = parseFloat(new URLSearchParams(search).get('value')) || 5000;
+    const selected = params.get('type');
+    const rate = parseFloat(params.get('rate')) || 5;
+    const value = parseFloat(params.get('value')) || 5000;
 
   setScenario(selected);
 
   if (selected === 'spend') {
-    setChartValues(simulateSpending(0, value));
-  } else {
-    setChartValues(simulateCompound(value, rate));
+    switch (selected) {
+      case 'save':
+      case 'invest':
+        setChartValues(simulateCompound(value, rate));
+        break;
+      case 'spend':
+        setChartValues(simulateSpending(0, value));
+        break;
+      default:
+        setChartValues(simulateCompound(5000, 5));
+    }
   }
-}, [search]); 
+}, [search]);
+
 
   const chartData = {
     labels: Array.from({ length: 6 }, (_, i) => `${i} yr`),
     datasets: [
       {
-        label: scenario.charAt(0).toUpperCase() + scenario.slice(1),
+        label: (scenario || 'Default').charAt(0).toUpperCase() + (scenario || 'Default').slice(1),
         data: chartValues,
         fill: false,
         borderColor: '#0d47a1'
