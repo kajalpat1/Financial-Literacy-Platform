@@ -100,49 +100,35 @@ exports.deletePoll = async (req, res, next) => {
     }
   };
 
-exports.vote = async(req, res, next) => {
+  exports.vote = async (req, res, next) => {
     try {
-        const {id:pollId} = req.params;
-        const{id:userId} = req.decoded;
-        const{answer} = req.body;
-
-        if (answer) {
-            const poll = await db.Poll.findById(pollId);
-            if(!poll) throw new Error('No poll found');
-
-            const vote = poll.options.map (  //new array identical to poll
-                //option array
-                option => {
-                    if (option.option === answer) {
-                        return {
-                            option: option.option,
-                            _id: option._id,
-                            votes: option.votes + 1
-                        };
-                    }
-                    else {
-                        return option;
-                    }
-                }
-            );
-            if (poll.voted.filter(user => 
-                user.toString() === userId).length <= 0) {
-                    poll.voted.push(userId);
-                    poll.options = vote;
-                    await poll.save();
-
-                    res.status(201).json(poll);
-                } //check if user has voted
-                else {
-                    throw new Error('Already voted');
-                }
-            }
-            else {
-                throw new Error('No answer provided');
-            }
-
-    } catch(err) {
-        err.status = 400;
-        next(err);
+      const { id: pollId } = req.params;
+      const { answer } = req.body;
+  
+      if (!answer) {
+        const e = new Error('No answer provided');
+        e.status = 400;
+        throw e;
+      }
+  
+      const poll = await db.Poll.findById(pollId);
+      if (!poll) {
+        const e = new Error('No poll found');
+        e.status = 404;
+        throw e;
+      }
+      
+      poll.options = poll.options.map(opt =>
+        opt.option === answer
+          ? { ...opt.toObject(), votes: opt.votes + 1 }
+          : opt
+      );
+  
+      await poll.save();
+  
+      res.status(201).json({ poll, selected: answer });
+    } catch (err) {
+      err.status = err.status || 400;
+      next(err);
     }
-};
+  };
