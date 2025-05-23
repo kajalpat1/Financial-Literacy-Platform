@@ -103,32 +103,21 @@ export const deletePollSuccess = id => ({
     }
   }
 
-  export const vote = (pollId, data, navigate) => {
+  export const vote = (path, data) => {
     return async dispatch => {
       try {
-        const response = await api.call('post', `polls/${pollId}`, data);
-        const { poll, selected } = response;
-  
-        dispatch({ type: SET_CURRENT_POLL, poll });
+        const { poll } = await api.call('post', `polls/${path}`, data);
+        dispatch(setCurrentPoll(poll));
         dispatch(removeError());
-  
-        if (navigate && selected) {
-          // infer scenario params
-          const key = selected.toLowerCase();
-          let rate = 5;
-          let value = 5000;
-          if (key.includes('invest'))       rate = 8;
-          else if (key.includes('save'))    rate = 5;
-          else if (key.includes('spend'))   value = 1000;
-  
-          navigate(`/scenario?type=${key}&value=${value}&rate=${rate}`);
-        }
+        // no navigation here
+        return poll;
       } catch (err) {
         const msg =
           err.response?.data?.error?.message ||
-          err.response?.data?.message        ||
+          err.response?.data?.message ||
           err.message;
         dispatch(addError(msg));
+        throw err;
       }
     };
   };
