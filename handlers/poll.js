@@ -99,33 +99,33 @@ exports.deletePoll = async (req, res, next) => {
   exports.vote = async (req, res, next) => {
     try {
       const { id: pollId } = req.params;
-      const { id: userId } = req.decoded;
       const { answer } = req.body;
   
-      if (!answer) throw new Error('No answer provided');
+      if (!answer) {
+        const err = new Error('No answer provided');
+        err.status = 400;
+        throw err;
+      }
   
       const poll = await db.Poll.findById(pollId);
-      if (!poll) throw new Error('No poll found');
+      if (!poll) {
+        const err = new Error('No poll found');
+        err.status = 404;
+        throw err;
+      }
   
-      const vote = poll.options.map(option => {
-        if (option.option === answer) {
-          return {
-            option: option.option,
-            _id: option._id,
-            votes: option.votes + 1
-          };
-        }
-        return option;
-      });
+      poll.options = poll.options.map(opt =>
+        opt.option === answer
+          ? { ...opt.toObject(), votes: opt.votes + 1 }
+          : opt
+      );
   
-      poll.options = vote;
-      poll.voted.push(userId); 
       await poll.save();
   
       res.status(201).json({ poll, selected: answer });
-  
     } catch (err) {
-      err.status = 400;
+
+      err.status = err.status || 400;
       next(err);
     }
   };
