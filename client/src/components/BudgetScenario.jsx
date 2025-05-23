@@ -33,14 +33,13 @@ const simulateSpending = (value, monthlyCost, years = 5) => {
 
 const BudgetScenario = () => {
   const { search } = useLocation();
-  const params = new URLSearchParams(search);
 
   const [scenario, setScenario] = useState('save');
   const [chartValues, setChartValues] = useState([]);
 
   // Whenever the URL changes, update scenario & chart
   useEffect(() => {
-    const selected = new URLSearchParams(search).get('type');
+  const selected = new URLSearchParams(search).get('type');
   const rate = parseFloat(new URLSearchParams(search).get('rate')) || 5;
   const value = parseFloat(new URLSearchParams(search).get('value')) || 5000;
 
