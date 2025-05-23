@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
 import { useLocation } from 'react-router-dom';
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   LineElement,
@@ -13,76 +13,62 @@ import {
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
-const simulateCompound = (value, rate, years = 5) => {
-  const result = [];
-  let current = value;
+const simulateCompound = (initial, rate, years = 5) => {
+  const arr = [];
+  let v = initial;
   for (let i = 0; i <= years; i++) {
-    result.push(current.toFixed(2));
-    current += current * (rate / 100);
+    arr.push(Number(v.toFixed(2)));
+    v *= 1 + rate / 100;
   }
-  return result;
+  return arr;
 };
 
-const simulateSpending = (value, monthlyCost, years = 5) => {
-  const result = [];
+const simulateSpending = (initial, monthlyCost, years = 5) => {
+  const arr = [];
   for (let i = 0; i <= years; i++) {
-    result.push((value + monthlyCost * 12 * i).toFixed(2));
+    arr.push(Number((initial + monthlyCost * 12 * i).toFixed(2)));
   }
-  return result;
+  return arr;
 };
 
-const BudgetScenario = () => {
+export default function BudgetScenario() {
+  const { search }     = useLocation();
+  const params         = new URLSearchParams(search);
+  const type           = params.get('type')  || 'save';
+  const rate           = Number(params.get('rate')  || 5);
+  const value          = Number(params.get('value') || 5000);
 
+  const [dataPoints, setDataPoints] = useState([]);
 
-  const [scenario, setScenario] = useState('save');
-  const [chartValues, setChartValues] = useState([]);
-
-  // Whenever the URL changes, update scenario & chart
   useEffect(() => {
-    const selected = params.get('type');
-    const rate = parseFloat(params.get('rate')) || 5;
-    const value = parseFloat(params.get('value')) || 5000;
-
-  setScenario(selected);
-
-  if (selected === 'spend') {
-    switch (selected) {
-      case 'save':
-      case 'invest':
-        setChartValues(simulateCompound(value, rate));
-        break;
-      case 'spend':
-        setChartValues(simulateSpending(0, value));
-        break;
-      default:
-        setChartValues(simulateCompound(5000, 5));
+    if (type === 'spend') {
+      setDataPoints(simulateSpending(0, value));
+    } else {
+      setDataPoints(simulateCompound(value, rate));
     }
-  }
-}, [search]);
-
+  }, [type, rate, value]);
 
   const chartData = {
     labels: Array.from({ length: 6 }, (_, i) => `${i} yr`),
-    datasets: [
-      {
-        label: (scenario || 'Default').charAt(0).toUpperCase() + (scenario || 'Default').slice(1),
-        data: chartValues,
-        fill: false,
-        borderColor: '#0d47a1'
-      }
-    ]
+    datasets: [{
+      label: type.charAt(0).toUpperCase() + type.slice(1),
+      data: dataPoints,
+      borderColor: '#0d47a1',
+      fill: false,
+      tension: 0.2
+    }]
   };
 
   return (
     <div className="page page--scenario">
-      <h2 style={{ marginBottom: '1rem' }}>Poll Visualization</h2>
-      <div className="chart-container" style={{ width: '90%', maxWidth: '600px', marginTop: '2rem' }}>
+      <h2>Poll Visualization</h2>
+      <div className="chart-container">
         <Line data={chartData} />
       </div>
     </div>
   );
-};
+}
 
-export default BudgetScenario;
+
 
 

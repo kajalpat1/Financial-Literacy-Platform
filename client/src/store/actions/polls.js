@@ -103,36 +103,30 @@ export const deletePollSuccess = id => ({
     }
   }
 
-  export const vote = (path, data, navigate) => {
+  export const vote = (pollId, data, navigate) => {
     return async dispatch => {
       try {
-        const response = await api.call('post', `polls/${path}`, data);
+        const response = await api.call('post', `polls/${pollId}`, data);
         const { poll, selected } = response;
   
-        dispatch(setCurrentPoll(poll));
+        dispatch({ type: SET_CURRENT_POLL, poll });
         dispatch(removeError());
   
         if (navigate && selected) {
-            const optionData = poll.options.find(opt => opt.option === selected);
-            let rate = 5;
-            let value = 5000;
-          
-            // infer simple logic based on keywords (customize this!)
-            if (selected.toLowerCase().includes('invest')) {
-              rate = 8;
-            } else if (selected.toLowerCase().includes('save')) {
-              rate = 5;
-            } else if (selected.toLowerCase().includes('spend')) {
-              value = 1000; // spending $1000/month
-            }
-          
-            navigate(`/scenario?type=${selected.toLowerCase()}&value=${value}&rate=${rate}`);
-          }
+          // infer scenario params
+          const key = selected.toLowerCase();
+          let rate = 5;
+          let value = 5000;
+          if (key.includes('invest'))       rate = 8;
+          else if (key.includes('save'))    rate = 5;
+          else if (key.includes('spend'))   value = 1000;
   
+          navigate(`/scenario?type=${key}&value=${value}&rate=${rate}`);
+        }
       } catch (err) {
         const msg =
           err.response?.data?.error?.message ||
-          err.response?.data?.message ||
+          err.response?.data?.message        ||
           err.message;
         dispatch(addError(msg));
       }

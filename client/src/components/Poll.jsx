@@ -15,41 +15,14 @@ const Poll = ({ poll, vote }) => {
   if (!poll || !poll.options) return null;
 
   const handleVote = (selectedOption) => {
-    // Map option text to financial behavior
-    let type = '';
-    let rate = 5;
-    let value = 5000;
-
-    const lower = selectedOption.toLowerCase();
-
-    if (lower.includes('invest')) {
-      type = 'invest';
-      rate = 8;
-      value = 5000;
-    } else if (lower.includes('save')) {
-      type = 'save';
-      rate = 5;
-      value = 5000;
-    } else if (lower.includes('spend')) {
-      type = 'spend';
-      value = 1000; // monthly cost
-    } else if (lower.includes('debt') || lower.includes('loan')) {
-      type = 'spend';
-      value = 600;
-    } else {
-      type = 'save';
-    }
-
-    // Register vote, then redirect with scenario parameters
-    vote(poll._id, { answer: selectedOption }, () =>
-      navigate(`/scenario?type=${type}&rate=${rate}&value=${value}`)
-    );
+    // simply dispatch vote → action will infer the scenario & navigate
+    vote(poll._id, { answer: selectedOption }, navigate);
   };
 
   const answers = poll.options.map(option => (
     <button
-      className="button"
       key={option._id}
+      className="button"
       onClick={() => handleVote(option.option)}
     >
       {option.option}
@@ -79,5 +52,6 @@ export default connect(
   state => ({ poll: state.currentPoll }),
   { vote }
 )(Poll);
+
 
 
