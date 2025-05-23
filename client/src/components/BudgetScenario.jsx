@@ -40,18 +40,18 @@ const BudgetScenario = () => {
 
   // Whenever the URL changes, update scenario & chart
   useEffect(() => {
-    const selected = params.get('type') || 'save';
-    const rate = parseFloat(params.get('rate')) || 5;
-    const value = parseFloat(params.get('value')) || 5000;
+    const selected = new URLSearchParams(search).get('type');
+  const rate = parseFloat(new URLSearchParams(search).get('rate')) || 5;
+  const value = parseFloat(new URLSearchParams(search).get('value')) || 5000;
 
-    setScenario(selected);
+  setScenario(selected);
 
-    if (selected === 'spend') {
-      setChartValues(simulateSpending(0, value));
-    } else {
-      setChartValues(simulateCompound(value, rate));
-    }
-  }, [search]); // triggers whenever ?type=... or others change
+  if (selected === 'spend') {
+    setChartValues(simulateSpending(0, value));
+  } else {
+    setChartValues(simulateCompound(value, rate));
+  }
+}, [search]); 
 
   const chartData = {
     labels: Array.from({ length: 6 }, (_, i) => `${i} yr`),

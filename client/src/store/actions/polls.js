@@ -113,8 +113,21 @@ export const deletePollSuccess = id => ({
         dispatch(removeError());
   
         if (navigate && selected) {
-          navigate(`/scenario?type=${selected.toLowerCase()}&value=5000&rate=8`);
-        }
+            const optionData = poll.options.find(opt => opt.option === selected);
+            let rate = 5;
+            let value = 5000;
+          
+            // infer simple logic based on keywords (customize this!)
+            if (selected.toLowerCase().includes('invest')) {
+              rate = 8;
+            } else if (selected.toLowerCase().includes('save')) {
+              rate = 5;
+            } else if (selected.toLowerCase().includes('spend')) {
+              value = 1000; // spending $1000/month
+            }
+          
+            navigate(`/scenario?type=${selected.toLowerCase()}&value=${value}&rate=${rate}`);
+          }
   
       } catch (err) {
         const msg =
