@@ -11,21 +11,32 @@ const randomColor = () => '#' + Math.random().toString(16).slice(2, 8);
 
 const Poll = ({ poll, vote }) => {
   const navigate = useNavigate();
-
   if (!poll || !poll.options) return null;
 
-  const handleVote = (selectedOption) => {
-    // simply dispatch vote → action will infer the scenario & navigate
-    vote(poll._id, { answer: selectedOption }, navigate);
+  const handleVote = async (selectedOption) => {
+    // derive scenario params
+    let type = 'save', rate = 5, value = 5000;
+    const lower = selectedOption.toLowerCase();
+    if (lower.includes('invest'))      { type = 'invest'; rate = 8;   }
+    else if (lower.includes('save'))   { type = 'save';   rate = 5;   }
+    else if (lower.includes('spend'))  { type = 'spend';  value = 1000; }
+    else if (lower.includes('debt')||lower.includes('loan')) {
+      type = 'spend'; value = 600;
+    }
+
+    // dispatch vote → updates Redux→currentPoll
+    await vote(poll._id, { answer: selectedOption });
+    // then navigate into your scenario page
+    navigate(`/scenario?type=${type}&rate=${rate}&value=${value}`);
   };
 
-  const answers = poll.options.map(option => (
+  const answers = poll.options.map(opt => (
     <button
-      key={option._id}
+      key={opt._id}
       className="button"
-      onClick={() => handleVote(option.option)}
+      onClick={() => handleVote(opt.option)}
     >
-      {option.option}
+      {opt.option}
     </button>
   ));
 
