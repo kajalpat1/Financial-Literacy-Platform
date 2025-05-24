@@ -129,3 +129,5 @@ exports.deletePoll = async (req, res, next) => {
       next(err);
     }
   };
+
+  //store => ({ auth: store.auth }),
