@@ -26,7 +26,7 @@ const NavBar = ({ auth, logout }) => (
     )}
   </nav>
 );
- //store => ({ auth: store.auth }),
+ 
 export default connect(
   store => ({ auth: store.auth }),
   { logout }
