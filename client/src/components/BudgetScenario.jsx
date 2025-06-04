@@ -127,7 +127,7 @@ const BudgetScenario = () => {
           {history.map((entry, i) => (
             <span key={i}>
               • Year {i + 1}: {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}&nbsp;
-              {entry.type === 'save' || entry.type === 'invest'
+              {entry.type === 'save' || entry.type === 'invst'
                 ? `(@ ${entry.rate}%)`
                 : `(− $${entry.amount})`}<br />
             </span>
