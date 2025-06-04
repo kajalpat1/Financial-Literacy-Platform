@@ -8,3 +8,5 @@ export const SET_CURRENT_POLL = 'SET_CURRENT_POLL';
 export const DELETE_POLL      = 'DELETE_POLL'
 
 
+export const ADD_CHOICE        = 'ADD_CHOICE';
+export const CLEAR_CHOICES     = 'CLEAR_CHOICES';

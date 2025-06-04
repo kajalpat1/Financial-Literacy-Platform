@@ -1,6 +1,7 @@
 import {addError, removeError} from './error';
 import {SET_CURRENT_USER} from '../actionTypes';
 import api from '../../services/api';
+import { clearChoices } from './scenario';
 
 
 export const setCurrentUser = user => ({
@@ -19,6 +20,9 @@ export const logout = () => {
         api.setToken(null);
         dispatch(setCurrentUser({}));
         dispatch(removeError());
+        dispatch(clearChoices());
+        
+        
     };
 };
 

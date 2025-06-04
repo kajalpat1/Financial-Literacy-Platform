@@ -1,6 +1,7 @@
+// client/src/components/BudgetScenario.jsx
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Line } from 'react-chartjs-2';
-import { useLocation } from 'react-router-dom';
 import {
   Chart as ChartJS,
   LineElement,
@@ -13,69 +14,111 @@ import {
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
-const simulateCompound = (value, rate, years = 5) => {
-  const result = [];
-  let current = value;
-  for (let i = 0; i <= years; i++) {
-    result.push(parseFloat(current.toFixed(2)));
-    current += current * (rate / 100);
-  }
-  return result;
-};
+function applySave(currentValue, rate = 5) {
+  return currentValue + currentValue * (rate / 100);
+}
 
-const simulateSpending = (monthlyCost, initial = 0, years = 5) => {
-  const result = [];
-  for (let i = 0; i <= years; i++) {
-    result.push(parseFloat((initial + monthlyCost * 12 * i).toFixed(2)));
-  }
-  return result;
-};
+
+function applyInvest(currentValue, rate = 8) {
+  return currentValue + currentValue * (rate / 100);
+}
+
+
+function applySpend(currentValue, annualSpend = 1000) {
+  return currentValue - annualSpend;
+}
+
+
+function applyDebt(currentValue, annualDebtPayment = 600) {
+  return currentValue - annualDebtPayment;
+}
 
 const BudgetScenario = () => {
-  const { search } = useLocation();
-  const params = new URLSearchParams(search);
-  const selectedType = params.get('type') || 'save';
-  const rate         = parseFloat(params.get('rate'))  || 5;
-  const value        = parseFloat(params.get('value')) || 5000;
+  
+  const history = useSelector(state => state.scenarioHistory);
 
-  const [scenario, setScenario]     = useState(selectedType);
   const [chartValues, setChartValues] = useState([]);
+  const INITIAL_VALUE = 0;
 
   useEffect(() => {
-    setScenario(selectedType);
-    if (selectedType === 'spend') {
-      setChartValues(simulateSpending(value));
-    } else {
-      setChartValues(simulateCompound(value, rate));
+    
+    if (!history || history.length === 0) {
+      setChartValues([INITIAL_VALUE]);
+      return;
     }
-  }, [selectedType, rate, value]);
+
+    const values = [INITIAL_VALUE];
+    let running = INITIAL_VALUE;
+
+    history.forEach(choice => {
+      switch (choice.toLowerCase()) {
+        case 'save':
+          running = applySave(running, 5);
+          break;
+        case 'invest':
+          running = applyInvest(running, 8);
+          break;
+        case 'spend':
+          running = applySpend(running, 1000);
+          break;
+        case 'pay off debt':
+        case 'debt':
+        case 'loan':
+          running = applyDebt(running, 600);
+          break;
+        default:
+          
+          break;
+      }
+      
+      values.push(parseFloat(running.toFixed(2)));
+    });
+
+    setChartValues(values);
+  }, [history]);
 
   const chartData = {
-    labels: Array.from({ length: 6 }, (_, i) => `${i} yr`),
-    datasets: [{
-      label: scenario.charAt(0).toUpperCase() + scenario.slice(1),
-      data: chartValues,
-      tension: 0.4,
-      fill: false,
-      borderColor: '#0d47a1'
-    }]
+    labels: chartValues.map((_, idx) => `Year ${idx}`),
+    datasets: [
+      {
+        label: 'Total over Time',
+        data: chartValues,
+        tension: 0.4,
+        fill: false,
+        borderColor: '#0d47a1',
+        backgroundColor: '#0d47a1',
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }
+    ]
   };
 
   return (
     <div className="page page--scenario">
-      <h2 style={{ marginBottom: '1rem' }}>Poll Visualization</h2>
-      <div
-        className="chart-container"
-        style={{ width: '90%', maxWidth: '600px', marginTop: '2rem' }}
-      >
+      <h2 style={{ marginBottom: '1rem' }}>Scenario Progression</h2>
+      <div className="chart-container" style={{ width: '90%', maxWidth: '700px', marginTop: '2rem' }}>
         <Line data={chartData} />
       </div>
+      <p style={{ marginTop: '1rem', textAlign: 'center' }}>
+        Each “vote” in your history was treated as a 1‐year decision. <br />
+        For example, if you voted ['Save', 'Invest', 'Spend'], <br />
+        the chart shows Year 0 → Year 1 after saving, Year 2 after investing, Year 3 after spending, etc.  
+      </p>
     </div>
   );
 };
 
 export default BudgetScenario;
 
+/*
 
+import { useDispatch } from 'react-redux';
+import { clearChoices } from '../store/actions/scenario';
 
+// …
+const dispatch = useDispatch();
 
+// somewhere in the JSX:
+<button onClick={() => dispatch(clearChoices())} className="button">
+  Reset History
+</button>*/ // add somewhere
