@@ -1,25 +1,58 @@
+// backend/models/poll.js
+
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const optionSchema = new mongoose.Schema({
-    option: String,
-    votes: {
-        type: Number,
-        default: 0,
-    }
+const OptionSchema = new Schema({
+  option: {
+    type: String,
+    required: true
+  },
+  votes: {
+    type: Number,
+    default: 0
+  },
+
+  principal: {
+    type: Number,
+    default: 0
+  },
+  
+  rate: {
+    type: Number,
+    default: null
+  },
+
+  amount: {
+    type: Number,
+    default: null
+  }
 });
 
-const pollSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User' 
+
+const PollSchema = new Schema(
+  {
+    question: {
+      type: String,
+      required: true
     },
-    question: String,
-    options: [optionSchema],   //keeps track of all the id user objects
-    voted: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
-    created: {
-        type: Date,
-        default: Date.now
-    }
-});
+   
+    options: [OptionSchema],
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    voted: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ]
+  },
+  {
+    timestamps: true
+  }
+);
 
-module.exports = mongoose.model('Poll', pollSchema);
+module.exports = mongoose.model('Poll', PollSchema);
