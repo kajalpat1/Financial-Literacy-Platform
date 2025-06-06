@@ -1,8 +1,8 @@
 import { ADD_CHOICE, CLEAR_CHOICES } from '../actionTypes';
 
-export const addChoice = (choiceObject) => ({
+export const addChoice = (choice) => ({
   type: ADD_CHOICE,
-  choice: choiceObject
+  choice
 });
 
 export const clearChoices = () => ({
