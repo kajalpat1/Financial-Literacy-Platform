@@ -18,7 +18,7 @@ const RouteViews = ({ auth, getCurrentPoll }) => (
       <Route path="/" element={<HomePage />} />
 
       <Route
-        path="/login"
+        path="/logn"
         element={
           <AuthPage
             authType="login"
